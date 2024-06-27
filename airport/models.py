@@ -11,12 +11,12 @@ class Route(models.Model):
     source = models.ForeignKey(
         to=Airport,
         on_delete=models.CASCADE,
-        related_name="routes"
+        related_name="routes_from"
     )
     destination = models.ForeignKey(
         to=Airport,
         on_delete=models.CASCADE,
-        related_name="routes"
+        related_name="routes_to"
     )
     distance = models.IntegerField()
 
