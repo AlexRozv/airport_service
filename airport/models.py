@@ -80,7 +80,9 @@ class Flight(models.Model):
     crew_members = models.ManyToManyField(to=Crew, related_name="flights")
 
     def __str__(self):
-        return f"Route: {self.route} Airplane: {self.airplane} Departure: {self.departure_time}"
+        return (f"Route: {self.route}; "
+                f"Airplane: {self.airplane}; "
+                f"Departure: {self.departure_time}")
 
 
 class Order(models.Model):
@@ -107,4 +109,4 @@ class Ticket(models.Model):
     )
 
     def __str__(self):
-        return f"Row: {self.row} Seat: {self.seat} Flight: {self.flight}"
+        return f"Row: {self.row}; Seat: {self.seat}; Flight: {self.flight}"
