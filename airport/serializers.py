@@ -29,6 +29,11 @@ class RouteListSerializer(RouteSerializer):
     destination = serializers.SlugRelatedField(slug_field="name", read_only=True)
 
 
+class RouteDetailSerializer(RouteSerializer):
+    source = AirportSerializer(read_only=True)
+    destination = AirportSerializer(read_only=True)
+
+
 class CrewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Crew
