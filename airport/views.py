@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 
-from airport.models import Airport, Route, Crew, AirplaneType, Airplane, Flight, Order
+from airport.models import Airport, Route, Crew, AirplaneType, Airplane, Flight, Order, Ticket
 from airport.serializers import AirportSerializer, RouteSerializer, CrewSerializer, AirplaneTypeSerializer, \
-    AirplaneSerializer, FlightSerializer, OrderSerializer
+    AirplaneSerializer, FlightSerializer, OrderSerializer, TicketSerializer
 
 
 class AirportViewSet(viewsets.ModelViewSet):
@@ -38,3 +38,8 @@ class FlightViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
+
+
+class TicketViewSet(viewsets.ModelViewSet):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer
