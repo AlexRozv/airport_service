@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import viewsets, mixins
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
@@ -85,6 +87,24 @@ class FlightViewSet(viewsets.ModelViewSet):
         if self.action == "create":
             return FlightSerializer
         return self.serializer_class
+
+    def get_queryset(self):
+        route_id_str = self.request.query_params.get("route")
+        departure_date = self.request.query_params.get("departure_date")
+        arrival_date = self.request.query_params.get("arrival_date")
+
+        queryset = self.queryset
+
+        if route_id_str:
+            queryset = queryset.filter(route_id=int(route_id_str))
+        if departure_date:
+            departure_date = datetime.strptime(departure_date, "%Y-%m-%d").date()
+            queryset = queryset.filter(departure_time__date=departure_date)
+        if arrival_date:
+            arrival_date = datetime.strptime(arrival_date, "%Y-%m-%d").date()
+            queryset = queryset.filter(arrival_time__date=arrival_date)
+
+        return queryset
 
 
 class TicketViewSet(viewsets.ModelViewSet):
