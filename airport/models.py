@@ -10,6 +10,9 @@ class Airport(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ["name"]
+
 
 class Route(models.Model):
     source = models.ForeignKey(
@@ -64,6 +67,9 @@ class Airplane(models.Model):
     def __str__(self):
         return f"{self.name} ({self.airplane_type})"
 
+    class Meta:
+        ordering = ["name"]
+
 
 class Flight(models.Model):
     route = models.ForeignKey(
@@ -85,6 +91,9 @@ class Flight(models.Model):
                 f"Airplane: {self.airplane}; "
                 f"Departure: {self.departure_time}")
 
+    class Meta:
+        ordering = ["-departure_time"]
+
 
 class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -96,6 +105,9 @@ class Order(models.Model):
 
     def __str__(self):
         return str(self.created_at)
+
+    class Meta:
+        ordering = ["-created_at"]
 
 
 class Ticket(models.Model):
@@ -151,3 +163,7 @@ class Ticket(models.Model):
 
     def __str__(self):
         return f"Row: {self.row}; Seat: {self.seat}; Flight: {self.flight}"
+
+    class Meta:
+        unique_together = ("flight", "row", "seat")
+        ordering = ["row", "seat"]
