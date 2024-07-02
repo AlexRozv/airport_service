@@ -1,8 +1,7 @@
 from datetime import datetime
 
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.viewsets import GenericViewSet
 
 from airport.models import (
     Airport,
@@ -34,7 +33,7 @@ from airport.serializers import (
 )
 
 
-class AirportViewSet(viewsets.ModelViewSet):
+class AirportViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
     queryset = Airport.objects.all()
     serializer_class = AirportSerializer
 
@@ -48,34 +47,34 @@ class RouteViewSet(viewsets.ModelViewSet):
             return RouteListSerializer
         elif self.action == "retrieve":
             return RouteDetailSerializer
-        elif self.action == "create":
-            return RouteSerializer
         return self.serializer_class
 
 
-class CrewViewSet(viewsets.ModelViewSet):
+class CrewViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
     queryset = Crew.objects.all()
     serializer_class = CrewSerializer
 
 
-class AirplaneTypeViewSet(viewsets.ModelViewSet):
+class AirplaneTypeViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
     queryset = AirplaneType.objects.all()
     serializer_class = AirplaneTypeSerializer
 
 
-class AirplaneViewSet(viewsets.ModelViewSet):
+class AirplaneViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
     queryset = Airplane.objects.all()
     serializer_class = AirplaneSerializer
 
     def get_serializer_class(self):
-        if self.action in ("list", "retrieve"):
+        if self.action == "list":
             return AirplaneListSerializer
-        elif self.action == "create":
-            return AirplaneSerializer
         return self.serializer_class
 
 
-class FlightViewSet(viewsets.ModelViewSet):
+class FlightViewSet(
+    generics.ListCreateAPIView,
+    generics.RetrieveAPIView,
+    viewsets.GenericViewSet
+):
     queryset = Flight.objects.all()
     serializer_class = FlightSerializer
 
@@ -84,8 +83,6 @@ class FlightViewSet(viewsets.ModelViewSet):
             return FlightListSerializer
         if self.action == "retrieve":
             return FlightDetailSerializer
-        if self.action == "create":
-            return FlightSerializer
         return self.serializer_class
 
     def get_queryset(self):
@@ -107,7 +104,11 @@ class FlightViewSet(viewsets.ModelViewSet):
         return queryset
 
 
-class TicketViewSet(viewsets.ModelViewSet):
+class TicketViewSet(
+    generics.ListCreateAPIView,
+    generics.RetrieveAPIView,
+    viewsets.GenericViewSet
+):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
 
@@ -116,16 +117,10 @@ class TicketViewSet(viewsets.ModelViewSet):
             return TicketListSerializer
         if self.action == "retrieve":
             return TicketDetailSerializer
-        if self.action == "create":
-            return TicketSerializer
         return self.serializer_class
 
 
-class OrderViewSet(
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin,
-    GenericViewSet,
-):
+class OrderViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
     queryset = Order.objects.prefetch_related(
         "tickets__flight__airplane"
     )

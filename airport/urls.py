@@ -12,8 +12,6 @@ from airport.views import (
     TicketViewSet
 )
 
-app_name = "airport"
-
 router = routers.DefaultRouter()
 router.register("airports", AirportViewSet)
 router.register("routes", RouteViewSet)
@@ -27,3 +25,5 @@ router.register("tickets", TicketViewSet)
 urlpatterns = [
     path("", include(router.urls))
 ]
+
+app_name = "airport"
