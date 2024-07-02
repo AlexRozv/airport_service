@@ -112,6 +112,9 @@ class TicketViewSet(
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
 
+    def get_queryset(self):
+        return Ticket.objects.filter(user=self.request.user)
+
     def get_serializer_class(self):
         if self.action == "list":
             return TicketListSerializer
