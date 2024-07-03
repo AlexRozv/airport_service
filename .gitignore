@@ -1,5 +1,5 @@
 .idea
 .venv
-db.sqlite3
+.sqlite3
 .env
 .flake8
