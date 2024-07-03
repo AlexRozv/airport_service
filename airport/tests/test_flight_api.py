@@ -83,7 +83,7 @@ class AuthenticatedFlightApiTests(TestCase):
 
         res = self.client.get(FLIGHT_URL)
 
-        flights = Flight.objects.order_by("id")
+        flights = Flight.objects.all()
         serializer = FlightListSerializer(flights, many=True)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
