@@ -96,7 +96,9 @@ class FlightViewSet(
         if route_id_str:
             queryset = queryset.filter(route_id=int(route_id_str))
         if departure_date:
-            departure_date = datetime.strptime(departure_date, "%Y-%m-%d").date()
+            departure_date = datetime.strptime(
+                departure_date, "%Y-%m-%d"
+            ).date()
             queryset = queryset.filter(departure_time__date=departure_date)
         if arrival_date:
             arrival_date = datetime.strptime(arrival_date, "%Y-%m-%d").date()

@@ -5,7 +5,14 @@ from django.urls import reverse
 from rest_framework.test import APIClient
 from rest_framework import status
 
-from airport.models import Route, Airport, Airplane, AirplaneType, Crew, Flight
+from airport.models import (
+    Route,
+    Airport,
+    Airplane,
+    AirplaneType,
+    Crew,
+    Flight
+)
 from airport.serializers import FlightListSerializer, FlightDetailSerializer
 
 FLIGHT_URL = reverse("airport:flight-list")
