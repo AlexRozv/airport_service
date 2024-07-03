@@ -1,6 +1,4 @@
-import tempfile
-
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from django.test import TestCase
 from django.urls import reverse
 
@@ -71,7 +69,7 @@ class UnauthenticatedFlightApiTests(TestCase):
 class AuthenticatedFlightApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.user = get_user_model().objects.create_user(
+        self.user = settings.AUTH_USER_MODEL.objects.create_user(
             "test@test.com",
             "testpass",
         )
@@ -157,7 +155,7 @@ class AuthenticatedFlightApiTests(TestCase):
 class AdminFlightApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.user = get_user_model().objects.create_user(
+        self.user = settings.AUTH_USER_MODEL.objects.create_user(
             "admin@admin.com", "testpass", is_staff=True
         )
         self.client.force_authenticate(self.user)

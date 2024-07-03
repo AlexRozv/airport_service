@@ -1,6 +1,7 @@
-from django.contrib.auth import get_user_model
 from django.db import models
 from rest_framework.exceptions import ValidationError
+
+from django.conf import settings
 
 
 class Airport(models.Model):
@@ -98,7 +99,7 @@ class Flight(models.Model):
 class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
-        to=get_user_model(),
+        to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="orders"
     )
