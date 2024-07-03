@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from rest_framework import viewsets, generics
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 
 from airport.models import (
@@ -104,6 +105,11 @@ class FlightViewSet(
         return queryset
 
 
+class Pagination(PageNumberPagination):
+    page_size = 10
+    max_page_size = 100
+
+
 class TicketViewSet(
     generics.ListCreateAPIView,
     generics.RetrieveAPIView,
@@ -111,6 +117,7 @@ class TicketViewSet(
 ):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+    pagination_class = Pagination
 
     def get_queryset(self):
         return Ticket.objects.filter(user=self.request.user)
@@ -129,6 +136,7 @@ class OrderViewSet(generics.ListCreateAPIView, viewsets.GenericViewSet):
     )
     serializer_class = OrderSerializer
     permission_classes = (IsAuthenticated,)
+    pagination_class = Pagination
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
